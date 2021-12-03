@@ -59,7 +59,7 @@ class Menu {
           this.viewDeckInformation();
           break;
         case "3":
-          deleteDecks();
+          this.deleteDecks();
           break;
         case "4":
           this.displayAllDecks();
@@ -83,12 +83,14 @@ class Menu {
     `);
   }
 
-  menuCardOptions() {
+  menuCardOptions(deckInfo) {
     return prompt(`
     Enter selection:
     0) Back
-    1) Create card
-    2) Delete card
+    1) Add a card
+    2) Delete a card
+
+    ${deckInfo}
     `);
   }
 
@@ -102,27 +104,102 @@ class Menu {
     for (let i = 0; i < this.decks.length; i++) {
       deckListString += i + ") " + this.decks[i].deckName + "\n";
     }
-    let index = prompt(`Select a deck index to view more information.
-${deckListString}
-    `);
+    let index = prompt(
+      `Select a deck index to view more information.
+${deckListString} 
+    `
+    );
     if (index > -1 && index < this.decks.length) {
       this.selectedDeck = this.decks[index];
     }
 
-    // let selection =
+    if (index > -1 && index < this.decks.length) {
+      this.selectedDeck = this.decks[index];
+      let description =
+        "Deck Name: " +
+        this.selectedDeck.deckName +
+        "\n" +
+        "Press 0 to return.";
+
+      for (let i = 0; i < this.selectedDeck.deckList.length; i++) {
+        description +=
+          i +
+          1 +
+          ") " +
+          "Name: " +
+          this.selectedDeck.deckList[i].cardName +
+          "\n " +
+          "Card Type: " +
+          this.selectedDeck.deckList[i].cardType +
+          "\n" +
+          "Pitch Color: " +
+          this.selectedDeck.deckList[i].cardPitchColor +
+          "\n" +
+          "Class: " +
+          this.selectedDeck.deckList[i].cardClass +
+          "\n" +
+          "Quantity: " +
+          this.selectedDeck.deckList[i].cardQuantity +
+          "\n";
+      }
+      ("Press 0 to return");
+
+      let selection = this.menuCardOptions(description);
+      switch (selection) {
+        case "1":
+          this.addNewCard();
+          break;
+        case "2":
+          this.deleteCard();
+      }
+    }
+  }
+
+  addNewCard() {
+    let cardName = prompt("Enter the card name.");
+    let cardType = prompt("Enter card type.");
+    let cardPitchColor = prompt("Enter card pitch color.");
+    let cardClass = prompt("Enter card class type.");
+    let cardQuantity = prompt("Enter card quantity.");
+    this.selectedDeck.deckList.push(
+      new Cards(cardName, cardType, cardPitchColor, cardClass, cardQuantity)
+    );
+  }
+
+  deleteCard() {
+    let index = prompt("Enter index of the card you want to delete.") - 1;
+    if (index > -1 && index < this.selectedDeck.deckList.length) {
+      this.selectedDeck.deckList.splice(index, 1);
+    }
+  }
+
+  deleteDecks() {
+    let deckListString = "";
+    for (let i = 0; i < this.decks.length; i++) {
+      deckListString += i + ") " + this.decks[i].deckName + "\n";
+    }
+
+    let index = prompt(`Enter the index of the deck you want to delete.
+
+    ${deckListString}
+    `);
+    if (index > -1 && index < this.decks.length) {
+      this.decks.splice(index, 1);
+    }
   }
 
   displayAllDecks() {
     let deckListString = "";
     for (let i = 0; i < this.decks.length; i++) {
-      deckListString += i + ") " + this.decks[i].deckName + "\n";
+      deckListString += i + 1 + ") " + this.decks[i].deckName + "\n";
     }
-    alert(`Avaliable Decks:
+    let index = prompt(`Avaliable Decks:
+    
 ${deckListString} 
+
+Press 0 to return.
 `);
   }
-
-  deleteDecks() {}
 }
 
 // let outForBlood = new Cards(
