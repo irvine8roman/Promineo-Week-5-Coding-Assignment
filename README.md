@@ -6,3 +6,5 @@ In this coding assignment we are tasked with using classes and methods to create
 
 ## Check it out!
 Coming Soon!
+
+Check out pictures in the Images Folder.
