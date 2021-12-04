@@ -115,11 +115,8 @@ ${deckListString}
 
     if (index > -1 && index < this.decks.length) {
       this.selectedDeck = this.decks[index];
-      let description =
-        "Deck Name: " +
-        this.selectedDeck.deckName +
-        "\n" +
-        "Press 0 to return.";
+      let description = "Press 0 to return." + "\n";
+      "Deck Name: " + this.selectedDeck.deckName + "\n";
 
       for (let i = 0; i < this.selectedDeck.deckList.length; i++) {
         description +=
@@ -167,7 +164,17 @@ ${deckListString}
   }
 
   deleteCard() {
-    let index = prompt("Enter index of the card you want to delete.") - 1;
+    let cardListString = "";
+    for (let i = 0; i < this.selectedDeck.deckList.length; i++) {
+      cardListString +=
+        i + ") " + this.selectedDeck.deckList[i].cardName + "\n";
+    }
+
+    let index = prompt(`Enter index of the card you want to delete.
+    
+      ${cardListString}
+    `);
+
     if (index > -1 && index < this.selectedDeck.deckList.length) {
       this.selectedDeck.deckList.splice(index, 1);
     }
